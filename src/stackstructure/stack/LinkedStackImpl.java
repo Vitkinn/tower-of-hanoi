@@ -20,6 +20,9 @@ public class LinkedStackImpl<T> implements IStack<T> {
 	@Override
     public void push(T obj) {
         if (this.isEmpty()) {
+        	this.first = new NoStack<>();
+        	this.top = new NoStack<>();
+
             this.first.setObj(obj);
             this.top = this.first;
         } else {
@@ -35,7 +38,7 @@ public class LinkedStackImpl<T> implements IStack<T> {
 
         if (this.counter > 1) {
         	NoStack<T> aux = this.first;
-        	for (int i = 0; i < this.counter; i++) {
+        	for (int i = 0; i < this.counter - 2; i++) {
         		aux = aux.getNext();
         	}
         	this.top = aux;
@@ -54,7 +57,7 @@ public class LinkedStackImpl<T> implements IStack<T> {
 
 	@Override
 	public int size() {
-		return this.counter - 1;
+		return this.counter;
 	}
 
 	@Override
@@ -64,8 +67,8 @@ public class LinkedStackImpl<T> implements IStack<T> {
 
 	@Override
 	public void clear() {
-	        this.top = null;
-	        this.first = null;
-	        this.counter = 0;
+        this.top = null;
+        this.first = null;
+        this.counter = 0;
 	}
 }
