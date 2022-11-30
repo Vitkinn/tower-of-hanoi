@@ -14,7 +14,7 @@ public class LinkedStackImpl<T> implements IStack<T> {
 
     @Override
     public boolean isEmpty() {
-        return this.top == null;
+        return this.counter == 0;
     }
 
 	@Override
@@ -38,15 +38,16 @@ public class LinkedStackImpl<T> implements IStack<T> {
 
         if (this.counter > 1) {
         	NoStack<T> aux = this.first;
-        	for (int i = 0; i < this.counter - 2; i++) {
+        	for (int i = 0; i < (this.counter - 2); i++) {
         		aux = aux.getNext();
         	}
         	this.top = aux;
         	this.top.setNext(null);
-        } else {
+			this.counter--;
+		} else {
         	this.clear();
         }
-        this.counter--;
+
         return result;
 	}
 
