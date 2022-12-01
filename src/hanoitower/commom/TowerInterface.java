@@ -16,7 +16,7 @@ public class TowerInterface {
 
 		for (int i = 0; i < towerSize; i++) {
 			towers += this.getTowerEmptySpaces(this.numOfDisc + 2) + "| \n";
-		}	
+		}
 		towers += this.createDiscs(stack);
 		return towers;
 	}
@@ -42,9 +42,17 @@ public class TowerInterface {
 	
 	public int[] generateTowerArray(IStack<Integer> stack) {
 		int numOfDisc = stack.size();
-		int[] towerArray = new int[stack.size()];
-		for (int i = 0; i < numOfDisc; i++) {
-			towerArray[i] = stack.pop();
+		int[] towerArray;
+		if (!stack.isEmpty()) {
+			towerArray = new int[stack.size()];
+			for (int i = 0; i < numOfDisc; i++) {
+				towerArray[i] = stack.pop();
+		}
+			for (int i = numOfDisc - 1; i >= 0; i--) {
+				stack.push(towerArray[i]);
+			}
+		} else {
+			towerArray = null;
 		}
 		return towerArray;
 	}
