@@ -8,6 +8,8 @@ import stackstructure.stack.LinkedStackImpl;
 public class TowerController {
 
 	private int numOfDiscs;
+	private int movesNumber = 0;
+	private boolean invalidMove;
 	private TowerInterface tower;
 	private IStack<Integer> firstTower;
 	private IStack<Integer> secondTower;
@@ -30,79 +32,53 @@ public class TowerController {
 
 		tower.buildGame(this.firstTower);
 	}
-	
+
 	public String getTowers(int towerNumber) {
 		String towers = "";
 
 		switch (towerNumber) {
 
 			case 1:
-
 				towers += tower.generateTowers(this.firstTower);
-
 				break;
 			case 2:
-
 				towers += tower.generateTowers(this.secondTower);
-
 				break;
 			case 3:
-
 				towers += tower.generateTowers(this.thirdTower);
-
 				break;
 		}
 		return towers;
 	}
 
-	public void transferDisc(int originTower, int destinyTower) {
-		int firstTower = 1;
-		int secondTower = 2;
-		int thirdTower = 3;
-		
+	public void transferDiscByNum(int originTower, int destinyTower) {
+		if (originTower == 1 && destinyTower == 2) {
+			this.transferDisc(this.firstTower, this.secondTower);
+		} else if (originTower == 1 && destinyTower == 3) {
+			this.transferDisc(this.firstTower, this.thirdTower);
+		} else if (originTower == 2 && destinyTower == 1) {
+			this.transferDisc(this.secondTower, this.firstTower);
+		} else if (originTower == 2 && destinyTower == 3) {
+			this.transferDisc(this.secondTower, this.thirdTower);
+		} else if (originTower == 3 && destinyTower == 1) {
+			this.transferDisc(this.thirdTower, this.firstTower);
+		} else if (originTower == 3 && destinyTower == 2) {
+			this.transferDisc(this.thirdTower, this.secondTower);
+		} else {
+			this.invalidMove = true;
+		}
+	}
+
+	public void transferDisc(IStack<Integer> originTower, IStack<Integer> destinyTower) {
 		if (!this.gameOver()) {
-			if (originTower == firstTower) {
-				if (destinyTower == secondTower) {
-					if (this.secondTower.isEmpty()) {
-						this.secondTower.push(this.firstTower.pop());
-					} else if (this.secondTower.top() < this.firstTower.top()) {
-						this.secondTower.push(this.firstTower.pop());
-					}
-				} else if (destinyTower == thirdTower) {
-					if (this.thirdTower.isEmpty()) {
-						this.thirdTower.push(this.firstTower.pop());
-					} else if (this.thirdTower.top() < this.firstTower.top()) {
-						this.thirdTower.push(this.firstTower.pop());
-					}
-				}
-			} else if (originTower == secondTower) {
-				if (destinyTower == firstTower) {
-					if (this.firstTower.isEmpty()) {
-						this.firstTower.push(this.secondTower.pop());
-					} else if (this.firstTower.top() < this.secondTower.top()) {
-						this.firstTower.push(this.secondTower.pop());
-					}
-				} else if (destinyTower == thirdTower) {
-					if (this.thirdTower.isEmpty()) {
-						this.thirdTower.push(this.secondTower.pop());
-					} else if (this.thirdTower.top() < this.secondTower.top()) {
-						this.thirdTower.push(this.secondTower.pop());
-					}
-				}
-			} else if (originTower == thirdTower) {
-				if (destinyTower == firstTower) {
-					if (this.firstTower.isEmpty()) {
-						this.firstTower.push(this.thirdTower.pop());
-					} else if (this.firstTower.top() < this.thirdTower.top()) {
-						this.firstTower.push(this.thirdTower.pop());
-					}
-				} else if (destinyTower == secondTower) {
-					if (this.secondTower.isEmpty()) {
-						this.secondTower.push(this.thirdTower.pop());
-					} else if (this.secondTower.top() < this.thirdTower.top()) {
-						this.secondTower.push(this.thirdTower.pop());
-					}
-				}
+			if (destinyTower.isEmpty()) {
+				destinyTower.push(originTower.pop());
+				this.movesNumber++;
+			} else if (destinyTower.top() > originTower.top()) {
+				destinyTower.push(originTower.pop());
+				this.movesNumber++;
+			} else {
+				this.invalidMove = true;
 			}
 		}
 	}
@@ -115,5 +91,19 @@ public class TowerController {
 
 	public boolean gameOver() {
 		return this.thirdTower.size() == this.numOfDiscs;
+	}
+
+	public boolean isInvalidMove() {
+		boolean result = this.getInvalidMove();
+		this.invalidMove = false;
+		return result;
+	}
+
+	public int getMovesNumber() {
+		return this.movesNumber;
+	}
+
+	public boolean getInvalidMove() {
+		return this.invalidMove;
 	}
 }
