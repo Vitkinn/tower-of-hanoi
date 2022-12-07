@@ -53,6 +53,9 @@ public class LinkedStackImpl<T> implements IStack<T> {
 
 	@Override
 	public T top() {
+        if (this.isEmpty()) {
+            return null;
+        }
 		return this.top.getObj();
 	}
 
