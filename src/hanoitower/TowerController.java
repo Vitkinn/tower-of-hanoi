@@ -10,28 +10,40 @@ public class TowerController {
 	private int numOfDiscs;
 	private int movesNumber = 0;
 	private boolean invalidMove;
-	private boolean gameOver;
 	private TowerInterface tower;
 	private IStack<Integer> firstTower;
 	private IStack<Integer> secondTower;
 	private IStack<Integer> thirdTower;
 
-	public void startGame(boolean stackType, int numOfDiscs) {
-		this.numOfDiscs = numOfDiscs;
-		this.tower = new TowerInterface();
-		
-		if (stackType) {
-			this.firstTower = new LinkedStackImpl<>();
-			this.secondTower = new LinkedStackImpl<>();
-			this.thirdTower = new LinkedStackImpl<>();
-		} else {
-			this.firstTower = new ArrayStackImp<>(numOfDiscs);
-			this.secondTower = new ArrayStackImp<>(numOfDiscs);
-			this.thirdTower = new ArrayStackImp<>(numOfDiscs);
-		}
-		this.populateTowers(numOfDiscs);
+	private static final String CONTIGUA = "CONTÍGUA";
+	private static final String DINAMICA = "DINÂMICA";
 
-		tower.buildGame(this.firstTower);
+	public void startGame(String[] arguments) {
+		if (this.validateArguments(arguments)) {
+			this.numOfDiscs = Integer.valueOf(arguments[1]);
+			this.tower = new TowerInterface();
+
+			if (arguments[0].toUpperCase().equals(this.DINAMICA)) {
+				this.firstTower = new LinkedStackImpl<>();
+				this.secondTower = new LinkedStackImpl<>();
+				this.thirdTower = new LinkedStackImpl<>();
+				this.populateTowers(numOfDiscs);
+				tower.buildGame(this.firstTower);
+			} else if (arguments[0].toUpperCase().equals(this.CONTIGUA)) {
+				this.firstTower = new ArrayStackImp<>(numOfDiscs);
+				this.secondTower = new ArrayStackImp<>(numOfDiscs);
+				this.thirdTower = new ArrayStackImp<>(numOfDiscs);
+				this.populateTowers(numOfDiscs);
+				tower.buildGame(this.firstTower);
+			} else {
+				throw new RuntimeException("Por gentileza, informe o tipo de implementação 'CONTÍGUA' ou 'DINÂMICA'," +
+						" e uma quantidade de discos maior ou igual a 3, respectivamento nos argumentos.");
+			}
+		}
+	}
+
+	public boolean validateArguments(String[] arguments) {
+		return arguments != null && arguments.length > 0 && arguments[0] != "" && arguments[1] != "" && Integer.valueOf(arguments[1]) >= 3;
 	}
 
 	public String getTowers(int towerNumber) {
@@ -98,14 +110,14 @@ public class TowerController {
 		return this.thirdTower.size() == this.numOfDiscs;
 	}
 
-	public void gameOver() {
-		this.gameOver = true;
-	}
-
 	public boolean isInvalidMove() {
 		boolean result = this.getInvalidMove();
 		this.invalidMove = false;
 		return result;
+	}
+
+	public int getNumOfDiscs() {
+		return this.numOfDiscs;
 	}
 
 	public int getMovesNumber() {
