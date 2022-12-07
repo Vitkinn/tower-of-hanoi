@@ -15,7 +15,7 @@ public class TowerInterface {
 		int towerSize = this.numOfDisc - stack.size();
 
 		for (int i = 0; i < towerSize; i++) {
-			towers += this.getTowerEmptySpaces(this.numOfDisc + 2) + "| \n";
+			towers += this.getTowerEmptySpaces(0) + "|\n";
 		}
 		towers += this.createDiscs(stack);
 		return towers;
@@ -27,7 +27,7 @@ public class TowerInterface {
 		String discStructure = "";
 		
 		for (int i = 0; i < numOfDiscTower; i++) {
-			discStructure += this.getTowerEmptySpaces(numOfDiscTower - i) + "<";
+			discStructure += this.getTowerEmptySpaces(i + 1) + "<";
 			for (int j = 0; j < towerArray[i]; j++) {
 				discStructure += "_";
 			}
@@ -35,7 +35,7 @@ public class TowerInterface {
 			for (int j = 0; j < towerArray[i]; j++) {
 				discStructure += "_";
 			}
-			discStructure += ">" + this.getTowerEmptySpaces(numOfDiscTower - i) + "\n";
+			discStructure += ">" + this.getTowerEmptySpaces(i + 1) + "\n";
 		}
 		return discStructure;
 	}
@@ -57,10 +57,18 @@ public class TowerInterface {
 		return towerArray;
 	}
 
-	public String getTowerEmptySpaces(int numOfDisc) {
+	public String getTowerEmptySpaces(int disc) {
 		String result = "";
-		for (int i = 0; i <= numOfDisc; i++) {
-			result += " ";
+
+		if (disc == 0) {
+			for (int i = 0; i < this.numOfDisc + 2; i++) {
+				result += " ";
+			}
+			return result;
+		} else {
+			for (int i = 0; i < (this.numOfDisc - (disc - 1)); i++) {
+				result += " ";
+			}
 		}
 		return result;
 	}
