@@ -23,9 +23,9 @@ public class ArrayStackImp<T> implements IStack<T> {
     @Override
     public T pop() {
         if (!isEmpty()) {
-            T item = this.array[counter];
+            T item = this.array[counter -1];
+            this.array[counter -1] = null;
             counter--;
-            this.array[counter] = null;
             return item;
         }
         return null;
@@ -50,7 +50,7 @@ public class ArrayStackImp<T> implements IStack<T> {
 
     @Override
     public int size() {
-        return counter - 1;
+        return counter;
     }
 
     @Override
