@@ -12,7 +12,7 @@ public class UserInterface {
 		TowerController tower = new TowerController();
 		Scanner scan = new Scanner(System.in);
 
-		tower.startGame(true, 5);
+		tower.startGame(false, 5);
 
 		do {
 			System.out.println("----- Torre de Hanoi ----- \n\n");
@@ -21,26 +21,36 @@ public class UserInterface {
 			System.out.println("Torre 2:\n" + tower.getTowers(2));
 			System.out.println("Torre 3:\n" + tower.getTowers(3));
 
-			do {
-				System.out.println("Informe a torre que você deseja mover uma peça: ");
-				scanFirstOption = scan.nextInt();
-				System.out.println("Informe a torre que você deseja colocar a peça: ");
-				scanSecondOption = scan.nextInt();
-				advanceGame = true;
+			System.out.println("(Para sair do jogo, digite qualquer tecla que não seja um número.)");
+			try {
+				do {
+					System.out.println("Informe a torre que você deseja mover uma peça: ");
+					scanFirstOption = scan.nextInt();
+					System.out.println("Informe a torre que você deseja colocar a peça: ");
+					scanSecondOption = scan.nextInt();
+					advanceGame = true;
 
-				tower.transferDiscByNum(scanFirstOption, scanSecondOption);
+					tower.transferDiscByNum(scanFirstOption, scanSecondOption);
 
-				if (tower.isInvalidMove()) {
-					advanceGame = false;
-					System.out.println("Jogada inválida, por-favor tente novamente!");
-				}
-			} while (!advanceGame);
+					if (tower.isInvalidMove()) {
+						advanceGame = false;
+						System.out.println("\nJOGADA INVÁLIDA, por-favor tente novamente!\n");
+					}
+				} while (!advanceGame);
+			} catch (Exception e) {
+				break;
+			}
+		} while (!tower.isGameOver());
 
+		System.out.println("Torre 1:\n" + tower.getTowers(1));
+		System.out.println("Torre 2:\n" + tower.getTowers(2));
+		System.out.println("Torre 3:\n" + tower.getTowers(3));
 
-		} while (!tower.gameOver());
+		if (tower.isGameOver()) {
+			System.out.println("Parabéns, você completou o desafio da Torre de Hanoi!\n");
 
-		System.out.println("Parabéns, você completou o objetivo da Torre de Hanoi!\n" +
-				"Você jogou com "+ 5 + " discos, e foram feitos um total de " +
-				tower.getMovesNumber() + "movimentos para concluir o desafio.");
+		}
+		System.out.println("Você jogou com "+ 5 + " discos, e foram feitos um total de " +
+				tower.getMovesNumber() + " movimentos.");
 	}
 }
