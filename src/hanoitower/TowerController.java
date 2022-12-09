@@ -1,9 +1,10 @@
 package hanoitower;
 
-import stackstructure.stackinterface.IStack;
-import hanoitower.commom.TowerInterface;
+import hanoitower.commom.ArgumentsValidation;
 import stackstructure.stack.ArrayStackImp;
+import stackstructure.stackinterface.IStack;
 import stackstructure.stack.LinkedStackImpl;
+import hanoitower.commom.TowerInterface;
 
 public class TowerController {
 
@@ -18,8 +19,10 @@ public class TowerController {
 	private static final String CONTIGUA = "CONTÍGUA";
 	private static final String DINAMICA = "DINÂMICA";
 
-	public void startGame(String[] arguments) {
-		if (this.validateArguments(arguments)) {
+	public void startGame(String[] arguments) throws Exception {
+		if (ArgumentsValidation.validateArgumentsExistence(arguments)
+				&& ArgumentsValidation.validateFirstArgument(arguments[0])
+				&& ArgumentsValidation.validateSecondArgument(arguments[1])) {
 			this.numOfDiscs = Integer.valueOf(arguments[1]);
 			this.tower = new TowerInterface();
 
@@ -35,15 +38,8 @@ public class TowerController {
 				this.thirdTower = new ArrayStackImp<>(numOfDiscs);
 				this.populateTowers(numOfDiscs);
 				tower.buildGame(this.firstTower);
-			} else {
-				throw new RuntimeException("Por gentileza, informe o tipo de implementação 'CONTÍGUA' ou 'DINÂMICA'," +
-						" e uma quantidade de discos maior ou igual a 3, respectivamento nos argumentos.");
 			}
 		}
-	}
-
-	public boolean validateArguments(String[] arguments) {
-		return arguments != null && arguments.length > 0 && arguments[0] != "" && arguments[1] != "" && Integer.valueOf(arguments[1]) >= 3;
 	}
 
 	public String getTowers(int towerNumber) {
