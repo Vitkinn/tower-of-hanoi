@@ -100,6 +100,10 @@ public class TowerController {
 		}
 	}
 
+	public int calculateMinimumMoves() {
+		return (int) Math.round(Math.pow(2, this.numOfDiscs) - 1);
+	}
+
 	private void populateTowers(int numOfDiscs) {
 		for (int i = numOfDiscs; i > 0; i--) {
 			this.firstTower.push(i);

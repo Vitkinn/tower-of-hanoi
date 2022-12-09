@@ -52,7 +52,8 @@ public class UserInterface {
 
 			}
 			System.out.println("Você jogou com " + tower.getNumOfDiscs() + " discos, e foram feitos um total de " +
-					tower.getMovesNumber() + " movimentos.");
+					tower.getMovesNumber() + " movimentos.\nCom essa quantidade de discos, o mínimo de movimentos " +
+					"possíveis para completar o desafio é " + tower.calculateMinimumMoves() + ".");
 		} else {
 			System.out.println("Por gentileza, informe o tipo de implementação 'CONTÍGUA' ou 'DINÂMICA'," +
 					" e uma quantidade de discos maior ou igual a 3, respectivamento nos argumentos.");
