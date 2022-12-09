@@ -23,19 +23,19 @@ public class TowerInterface {
 
 	public String createDiscs(IStack<Integer> stack) {
 		int numOfDiscTower = stack.size();
-		int[] towerArray = generateTowerArray(stack);
+		int towerArray[]  = generateTowerArray(stack);
 		String discStructure = "";
 		
 		for (int i = 0; i < numOfDiscTower; i++) {
-			discStructure += this.getTowerEmptySpaces(i + 1) + "<";
+			discStructure += this.getTowerEmptySpaces(stack.top() + i) + "<";
 			for (int j = 0; j < towerArray[i]; j++) {
 				discStructure += "_";
 			}
 			discStructure += "|";
 			for (int j = 0; j < towerArray[i]; j++) {
-				discStructure += "_";
+			discStructure += "_";
 			}
-			discStructure += ">" + this.getTowerEmptySpaces(i + 1) + "\n";
+			discStructure += "> \n";
 		}
 		return discStructure;
 	}
